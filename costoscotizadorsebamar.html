@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador Costos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-200 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-6 rounded-2xl shadow-xl w-80 text-center">
+
+<img src="https://i.imgur.com/oY22aXP.png" class="mx-auto mb-4 w-48">
+
+<h2 class="text-lg font-bold mb-4">Cotizador Interno</h2>
+
+<select id="producto" onchange="resetear()" class="w-full p-2 border rounded-lg mb-2">
+<option>Paño fijo</option>
+<option>Premarco</option>
+<option>Contramarco</option>
+</select>
+
+<input id="ancho" placeholder="Ancho (cm)" class="w-full p-2 border rounded-lg mb-2">
+<input id="alto" placeholder="Alto (cm)" class="w-full p-2 border rounded-lg mb-2">
+
+<div id="grupoCalidad">
+<select id="calidad" class="w-full p-2 border rounded-lg mb-2">
+<option>Herrero</option>
+<option>Modena</option>
+</select>
+</div>
+
+<div id="grupoColor">
+<select id="color" class="w-full p-2 border rounded-lg mb-2">
+<option>Blanco</option>
+<option>Negro</option>
+<option>Bronce</option>
+<option>Madera</option>
+</select>
+</div>
+
+<div id="grupoVidrio">
+<select id="vidrio" class="w-full p-2 border rounded-lg mb-4">
+<option>3mm</option>
+<option>4mm</option>
+<option>5mm</option>
+<option>4mm Fantasia</option>
+<option>3+3</option>
+<option>4+4</option>
+</select>
+</div>
+
+<button onclick="calcular()" 
+class="w-full bg-gray-800 hover:bg-black text-white font-bold py-2 rounded-lg transition">
+CALCULAR
+</button>
+
+<div id="resultado" class="mt-4 text-sm text-left"></div>
+
+</div>
+
+<script>
+
+function resetear(){
+ancho.value="";
+alto.value="";
+resultado.innerHTML="";
+actualizarUI();
+}
+
+function actualizarUI(){
+let p = producto.value;
+
+grupoVidrio.style.display = (p==="Paño fijo") ? "block":"none";
+grupoCalidad.style.display = (p==="Paño fijo") ? "block":"none";
+grupoColor.style.display = (p==="Premarco") ? "none":"block";
+}
+
+function calcular(){
+
+let p = producto.value;
+let a = ancho.value/100;
+let h = alto.value/100;
+let per = a*2 + h*2;
+
+let pl={"Herrero":10685,"Modena":17220};
+let col={"Blanco":0,"Negro":0.3,"Bronce":0.45,"Madera":2.5};
+let vid={"3mm":15072,"4mm":19459,"5mm":24880,"4mm Fantasia":24734,"3+3":62425,"4+4":69735};
+
+let costo_base=0;
+
+if(p==="Paño fijo"){
+let estructura = per * pl[calidad.value];
+let estructura_color = estructura * (1 + col[color.value]);
+let vidrio_total = (a*h) * vid[vidrio.value];
+costo_base = estructura_color + vidrio_total;
+}
+
+if(p==="Premarco"){
+costo_base = per * 7035;
+}
+
+if(p==="Contramarco"){
+costo_base = (per * 3990) * (1 + col[color.value]);
+}
+
+// COSTOS POR SUCURSAL
+let costo_sebamar = costo_base * (1 - 0.1);
+let costo_azul = costo_base * (1 - 0.12);
+let costo_verde = costo_base * (1 - 0.12);
+
+// PRECIOS
+let sebamar = costo_sebamar * (1+0.06)*(1+0.25);
+let azul = costo_azul * (1+0.08)*(1+0.30);
+let verde = costo_verde * (1+0.10)*(1+0.35);
+
+// GANANCIAS
+let gan_sebamar = sebamar - costo_sebamar;
+let gan_azul = azul - costo_azul;
+let gan_verde = verde - costo_verde;
+
+// MARGEN %
+let marg_sebamar = (gan_sebamar / sebamar) * 100;
+let marg_azul = (gan_azul / azul) * 100;
+let marg_verde = (gan_verde / verde) * 100;
+
+resultado.innerHTML = `
+<b>Costo base:</b> $${Math.round(costo_base)}<br><br>
+
+<b>--- SEBAMAR ---</b><br>
+Costo: $${Math.round(costo_sebamar)}<br>
+Precio: $${Math.round(sebamar)}<br>
+Ganancia: $${Math.round(gan_sebamar)}<br>
+Margen: ${marg_sebamar.toFixed(1)}%<br><br>
+
+<b>--- EX ---</b><br>
+Costo: $${Math.round(costo_azul)}<br>
+Precio: $${Math.round(azul)}<br>
+Ganancia: $${Math.round(gan_azul)}<br>
+Margen: ${marg_azul.toFixed(1)}%<br><br>
+
+<b>--- EX2 ---</b><br>
+Costo: $${Math.round(costo_verde)}<br>
+Precio: $${Math.round(verde)}<br>
+Ganancia: $${Math.round(gan_verde)}<br>
+Margen: ${marg_verde.toFixed(1)}%
+`;
+}
+
+actualizarUI();
+
+</script>
+
+</body>
+</html>
