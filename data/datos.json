@@ -1,0 +1,29 @@
+{
+  "perfiles": {
+    "Herrero": 10685,
+    "Modena": 17220
+  },
+  "colores": {
+    "Blanco": 0,
+    "Negro": 0.3,
+    "Bronce": 0.45,
+    "Madera": 2.5
+  },
+  "vidrios": {
+    "3mm": 15072,
+    "4mm": 19459,
+    "5mm": 24880,
+    "4mm Fantasia": 24734,
+    "3+3": 62425,
+    "4+4": 69735
+  },
+  "costos": {
+    "premarco": 7035,
+    "contramarco": 3990
+  },
+  "sucursales": {
+    "sebamar": { "desc": 0.1, "inc": 0.06, "margen": 0.30 },
+    "azul": { "desc": 0.12, "inc": 0.1, "margen": 0.30 },
+    "verde": { "desc": 0.12, "inc": 0.15, "margen": 0.40 }
+  }
+}

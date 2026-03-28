@@ -11,7 +11,8 @@
     
 <div class="bg-white p-6 rounded-2xl shadow-xl w-80 text-center">
 
-<img src="https://i.imgur.com/oY22aXP.png" class="mx-auto mb-4 w-48">
+<img src="images/logo.png" class="mx-auto mb-4 w-48">
+
 <h2 class="text-lg font-bold mb-4">Sebamar Cotizador</h2>
 
 <select id="producto" onchange="resetear()" class="w-full p-2 border rounded-lg mb-2">
@@ -50,7 +51,8 @@
 </select>
 </div>
 
-<button onclick="calcular()" class="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition font-bold py-2 rounded-lg">
+<button onclick="calcular('sebamar')"
+class="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition font-bold py-2 rounded-lg">
 CALCULAR
 </button>
 
@@ -58,48 +60,9 @@ CALCULAR
 
 </div>
 
+<script src="js/app.js"></script>
 <script>
-function resetear(){
-ancho.value="";
-alto.value="";
-resultado.innerText="$0";
-actualizarUI();
-}
-
-function actualizarUI(){
-let p=producto.value;
-grupoVidrio.style.display=(p==="Paño fijo")?"block":"none";
-grupoCalidad.style.display=(p==="Paño fijo")?"block":"none";
-grupoColor.style.display=(p==="Premarco")?"none":"block";
-}
-
-function calcular(){
-let p=producto.value;
-let a=ancho.value/100;
-let h=alto.value/100;
-let per=a*2+h*2;
-
-let pl={"Herrero":10685,"Modena":17220};
-let col={"Blanco":0,"Negro":0.3,"Bronce":0.45,"Madera":2.5};
-let vid={"3mm":15072,"4mm":19459,"5mm":24880,"4mm Fantasia":24734,"3+3":62425,"4+4":69735};
-
-let costo=0;
-
-if(p==="Paño fijo"){
-costo=(per*pl[calidad.value])*(1+col[color.value])+(a*h*vid[vidrio.value]);
-}
-if(p==="Premarco"){
-costo=per*7035;
-}
-if(p==="Contramarco"){
-costo=(per*3990)*(1+col[color.value]);
-}
-
-let precio=costo*(1-0.1)*(1+0.06)*(1+0.25);
-resultado.innerText="$"+Math.round(precio);
-}
-
-actualizarUI();
+init();
 </script>
 
 </body>
