@@ -1,7 +1,7 @@
 {
   "perfiles": {
     "Herrero": 10685,
-    "Modena": 17220
+    "Modena": 18080
   },
   "colores": {
     "Blanco": 0,
@@ -10,20 +10,41 @@
     "Madera": 2.5
   },
   "vidrios": {
-    "3mm": 15072,
-    "4mm": 19459,
-    "5mm": 24880,
-    "4mm Fantasia": 24734,
+    "3mm": 15675,
+    "4mm": 20238,
+    "5mm": 25875,
+    "4mm Fantasia": 25725,
     "3+3": 62425,
     "4+4": 69735
   },
   "costos": {
-    "premarco": 7035,
-    "contramarco": 3990
+    "premarco": 7400,
+    "contramarco": 4200
   },
   "sucursales": {
-    "sebamar": { "desc": 0.1, "inc": 0.06, "margen": 0.30 },
-    "azul": { "desc": 0.12, "inc": 0.1, "margen": 0.30 },
-    "verde": { "desc": 0.12, "inc": 0.15, "margen": 0.40 }
+    "sebamar": {
+      "desc": {
+        "herrero": 0.10,
+        "modena": 0.07
+      },
+      "inc": 0.05,
+      "margen": 0.20
+    },
+    "azul": {
+      "desc": {
+        "herrero": 0.12,
+        "modena": 0.07
+      },
+      "inc": 0.04,
+      "margen": 0.18
+    },
+    "verde": {
+      "desc": {
+        "herrero": 0.09,
+        "modena": 0.07
+      },
+      "inc": 0.03,
+      "margen": 0.15
+    }
   }
 }

@@ -19,6 +19,24 @@ function actualizarUI(){
   grupoColor.style.display=(p==="Premarco")?"none":"block";
 }
 
+// 🔥 FUNCIÓN CENTRAL
+function calcularSucursal(costo, sucursal, tipoCliente){
+
+  let descuento = sucursal.desc[tipoCliente] ?? 0;
+
+  let costoFinal = costo * (1 - descuento);
+  let precio = costoFinal * (1 + sucursal.inc) * (1 + sucursal.margen);
+  let ganancia = precio - costoFinal;
+  let margen = (ganancia / precio) * 100;
+
+  return {
+    costo: costoFinal,
+    precio,
+    ganancia,
+    margen
+  };
+}
+
 function calcular(tipo){
 
   if (!DATA.perfiles) {
@@ -37,6 +55,7 @@ function calcular(tipo){
 
   let costo=0;
 
+  // 🔧 COSTOS (no tocar)
   if(p==="Paño fijo"){
     costo=(per*pl[calidad.value])*(1+col[color.value])+(a*h*vid[vidrio.value]);
   }
@@ -49,56 +68,57 @@ function calcular(tipo){
     costo=(per*DATA.costos.contramarco)*(1+col[color.value]);
   }
 
+  // 🔥 DETECTAR TIPO (herrero / modena) DESDE CALIDAD
+  let tipoCliente = calidad.value.toLowerCase();
+
+  if(tipoCliente.includes("herrero")){
+    tipoCliente = "herrero";
+  } else if(tipoCliente.includes("modena")){
+    tipoCliente = "modena";
+  } else {
+    tipoCliente = "modena"; // default seguro
+  }
+
+  // 💰 CÁLCULO
   if(!tipo){
 
     let s = DATA.sucursales;
 
-    let costo_sebamar = costo * (1 - s.sebamar.desc);
-    let costo_azul = costo * (1 - s.azul.desc);
-    let costo_verde = costo * (1 - s.verde.desc);
-
-    let sebamar = costo_sebamar * (1+s.sebamar.inc)*(1+s.sebamar.margen);
-    let azul = costo_azul * (1+s.azul.inc)*(1+s.azul.margen);
-    let verde = costo_verde * (1+s.verde.inc)*(1+s.verde.margen);
-
-    let gan_sebamar = sebamar - costo_sebamar;
-    let gan_azul = azul - costo_azul;
-    let gan_verde = verde - costo_verde;
-
-    let marg_sebamar = (gan_sebamar / sebamar) * 100;
-    let marg_azul = (gan_azul / azul) * 100;
-    let marg_verde = (gan_verde / verde) * 100;
+    let sebamar = calcularSucursal(costo, s.sebamar, tipoCliente);
+    let azul = calcularSucursal(costo, s.azul, tipoCliente);
+    let verde = calcularSucursal(costo, s.verde, tipoCliente);
 
     resultado.innerHTML = `
     <b>Costo base:</b> $${Math.round(costo)}<br><br>
 
     <b>--- SEBAMAR ---</b><br>
-    Costo: $${Math.round(costo_sebamar)}<br>
-    Precio: $${Math.round(sebamar)}<br>
-    Ganancia: $${Math.round(gan_sebamar)}<br>
-    Margen: ${marg_sebamar.toFixed(1)}%<br><br>
+    Costo: $${Math.round(sebamar.costo)}<br>
+    Precio: $${Math.round(sebamar.precio)}<br>
+    Ganancia: $${Math.round(sebamar.ganancia)}<br>
+    Margen: ${sebamar.margen.toFixed(1)}%<br><br>
 
     <b>--- EX ---</b><br>
-    Costo: $${Math.round(costo_azul)}<br>
-    Precio: $${Math.round(azul)}<br>
-    Ganancia: $${Math.round(gan_azul)}<br>
-    Margen: ${marg_azul.toFixed(1)}%<br><br>
+    Costo: $${Math.round(azul.costo)}<br>
+    Precio: $${Math.round(azul.precio)}<br>
+    Ganancia: $${Math.round(azul.ganancia)}<br>
+    Margen: ${azul.margen.toFixed(1)}%<br><br>
 
     <b>--- EX2 ---</b><br>
-    Costo: $${Math.round(costo_verde)}<br>
-    Precio: $${Math.round(verde)}<br>
-    Ganancia: $${Math.round(gan_verde)}<br>
-    Margen: ${marg_verde.toFixed(1)}%
+    Costo: $${Math.round(verde.costo)}<br>
+    Precio: $${Math.round(verde.precio)}<br>
+    Ganancia: $${Math.round(verde.ganancia)}<br>
+    Margen: ${verde.margen.toFixed(1)}%
     `;
 
   } else {
 
     let s = DATA.sucursales[tipo];
-    let precio = costo * (1 - s.desc) * (1 + s.inc) * (1 + s.margen);
+    let res = calcularSucursal(costo, s, tipoCliente);
 
-    resultado.innerHTML = "$" + Math.round(precio);
+    resultado.innerHTML = "$" + Math.round(res.precio);
   }
 }
+
 function cargarSelect(id, datos){
   let select = document.getElementById(id);
   if(!select) return;

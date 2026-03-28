@@ -2,69 +2,54 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotizador</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EX2 Cotizador</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-green-50 flex items-center justify-center min-h-screen">
 
-    <div class="bg-white p-6 rounded-2xl shadow-xl w-80 text-center">
+<div class="bg-white p-6 rounded-2xl shadow-xl w-80 text-center">
 
-        <img src="images/logo.png" class="mx-auto mb-4 w-48">
+<img src="images/logo.png" class="mx-auto mb-4 w-48">
 
-        <h2 class="text-lg font-bold mb-4">Sebamar Ex2 Cotizador</h2>
+<h2 class="text-lg font-bold mb-4">EX2 Cotizador</h2>
 
-        <select id="producto" onchange="resetear()" class="w-full p-2 border rounded-lg mb-2">
-            <option>Paño fijo</option>
-            <option>Premarco</option>
-            <option>Contramarco</option>
-        </select>
+<select id="producto" onchange="resetear()" class="w-full p-2 border rounded-lg mb-2">
+  <option>Paño fijo</option>
+  <option>Premarco</option>
+  <option>Contramarco</option>
+</select>
 
-        <input id="ancho" placeholder="Ancho (cm)" class="w-full p-2 border rounded-lg mb-2">
-        <input id="alto" placeholder="Alto (cm)" class="w-full p-2 border rounded-lg mb-2">
+<input id="ancho" placeholder="Ancho (cm)" class="w-full p-2 border rounded-lg mb-2">
+<input id="alto" placeholder="Alto (cm)" class="w-full p-2 border rounded-lg mb-2">
 
-        <div id="grupoCalidad">
-            <select id="calidad" class="w-full p-2 border rounded-lg mb-2">
-                <option>Herrero</option>
-                <option>Modena</option>
-            </select>
-        </div>
+<div id="grupoCalidad">
+  <select id="calidad" class="w-full p-2 border rounded-lg mb-2"></select>
+</div>
 
-        <div id="grupoColor">
-            <select id="color" class="w-full p-2 border rounded-lg mb-2">
-                <option>Blanco</option>
-                <option>Negro</option>
-                <option>Bronce</option>
-                <option>Madera</option>
-            </select>
-        </div>
+<div id="grupoColor">
+  <select id="color" class="w-full p-2 border rounded-lg mb-2"></select>
+</div>
 
-        <div id="grupoVidrio">
-            <select id="vidrio" class="w-full p-2 border rounded-lg mb-4">
-                <option>3mm</option>
-                <option>4mm</option>
-                <option>5mm</option>
-                <option>4mm Fantasia</option>
-                <option>3+3</option>
-                <option>4+4</option>
-            </select>
-        </div>
+<div id="grupoVidrio">
+  <select id="vidrio" class="w-full p-2 border rounded-lg mb-4"></select>
+</div>
 
-        <button onclick="calcular('verde')"
-            class="w-full bg-green-500 hover:bg-green-600 active:scale-95 transition transform text-white font-bold py-2 rounded-lg">
-            CALCULAR
-        </button>
+<button onclick="calcular('verde')"
+class="w-full bg-green-500 hover:bg-green-600 active:scale-95 transition text-white font-bold py-2 rounded-lg">
+CALCULAR
+</button>
 
-        <div id="resultado" class="text-3xl font-bold mt-4">$0</div>
+<div id="resultado" class="text-3xl font-bold mt-4">$0</div>
 
-    </div>
+</div>
 
-    <script src="js/app.js"></script>
-    <script>
-        init();
-    </script>
+<script src="js/app.js"></script>
+<script>
+init();
+</script>
 
 </body>
 
